@@ -19,7 +19,7 @@ df_timestamp = df_timestamp.set_index('TILE_ID')
 unique_dates = df_timestamp['DATE'].unique()
 list_of_unique_dates = unique_dates.tolist()
 
-# Results from the predictions
+# Results from the predictions  
 results_file = 'results/results_all.csv'
 df_results = pd.read_csv(results_file)
 
@@ -41,7 +41,7 @@ BACKGROUND_COLOR = "#f8f9fa"
 header = dbc.Row([
     dbc.Col([
         html.H1(
-            "Ship-to-Ship transfer detection in SAR images", 
+            "Ship-to-Ship transfer detection", 
             id='header', 
             className="mb-4"
             )

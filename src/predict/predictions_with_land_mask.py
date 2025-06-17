@@ -6,10 +6,10 @@ import pandas as pd
 from pathlib import Path
 import rasterio as rio
 
-import utils.geo_utils as geos
-import utils.image_processing as ipc
+import utils.geolocate.geo_utils as geos
+import preprocess.image_processing as ipc
 import utils.utils as utils
-import utils.land_mask as lmsk
+import preprocess.land_mask as lmsk
 
 
 from google.cloud import storage

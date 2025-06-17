@@ -70,29 +70,29 @@ sidebar = dbc.Row([
         html.Br(),
         html.Hr(),
         html.H3("Summary statistics"),  # , className="lead"
-        dash_table.DataTable(
-            id='summary-table',
-            columns=[
-                {"name": "Description", "id": "description"}, 
-                {"name": "", "id": "statistics"}
-            ],
-            style_cell_conditional=[
-                {'if': {'column_id': 'Description'}, 'width': '250px', 'textAlign': 'right'},
-                {'if': {'column_id': 'Statistics'}, 'width': '50px', 'textAlign': 'center',}
-            ],
-            style_cell={
-                'textAlign': 'left', 
-                'minWidth': '50px',
-                'maxWidth': '250px',
-                'whiteSpace': 'normal',
-            },
-            style_data={
-                'height':'20px',
-                'border': 'none',
-                },
-            style_table={'overflowX': 'auto'},
-            style_header={'display': 'none'}
-        ),        
+        # dash_table.DataTable(
+        #     id='summary-table',
+        #     columns=[
+        #         {"name": "Description", "id": "description"}, 
+        #         {"name": "", "id": "statistics"}
+        #     ],
+        #     style_cell_conditional=[
+        #         {'if': {'column_id': 'Description'}, 'width': '250px', 'textAlign': 'right'},
+        #         {'if': {'column_id': 'Statistics'}, 'width': '50px', 'textAlign': 'center',}
+        #     ],
+        #     style_cell={
+        #         'textAlign': 'left', 
+        #         'minWidth': '50px',
+        #         'maxWidth': '250px',
+        #         'whiteSpace': 'normal',
+        #     },
+        #     style_data={
+        #         'height':'20px',
+        #         'border': 'none',
+        #         },
+        #     style_table={'overflowX': 'auto'},
+        #     style_header={'display': 'none'}
+        # ),        
         dcc.Store(id='data-table'),
     ])
 ])
@@ -132,26 +132,26 @@ ship_report = dbc.Row([
         dbc.Col([
             html.Hr(),
             html.H3("Vessel details"),  # , className="lead"
-            dash_table.DataTable(
-                id='click-output-data',
-                columns=[
-                    {"name": "Feature", "id": "Feature"}, 
-                    {"name": "", "id": "Value"}
-                ],
-                style_cell_conditional=[
-                    {'if': {'column_id': 'Feature'}, 'width': '70px'},
-                    {'if': {'column_id': 'Value'}, 'width': '230px'}
-                ],
-                style_cell={
-                    'textAlign': 'left', 
-                    'minWidth': '70px',
-                    'maxWidth': '230px',
-                    'whiteSpace': 'normal'
-                },
-                style_data=dict(height='20px', border='none'),
-                style_table={'overflowX': 'auto'},
-                style_header={'display': 'none'}
-            ),
+            # dash_table.DataTable(
+            #     id='click-output-data',
+            #     columns=[
+            #         {"name": "Feature", "id": "Feature"}, 
+            #         {"name": "", "id": "Value"}
+            #     ],
+            #     style_cell_conditional=[
+            #         {'if': {'column_id': 'Feature'}, 'width': '70px'},
+            #         {'if': {'column_id': 'Value'}, 'width': '230px'}
+            #     ],
+            #     style_cell={
+            #         'textAlign': 'left', 
+            #         'minWidth': '70px',
+            #         'maxWidth': '230px',
+            #         'whiteSpace': 'normal'
+            #     },
+            #     style_data=dict(height='20px', border='none'),
+            #     style_table={'overflowX': 'auto'},
+            #     style_header={'display': 'none'}
+            # ),
             html.Img(
                 id='image-placeholder', 
                 alt='Click on data point to display image',
@@ -360,7 +360,7 @@ def update_map(frame_date, data):
         fig.update_mapboxes(center=dict(lat=latitude, lon=longitude))
         return fig
     
-    fig = px.scatter_mapbox(
+    fig = px.scatter_map(
         lat=[latitude],
         lon=[longitude],
         zoom=8,
@@ -537,4 +537,4 @@ def display_click_data_image(clickData):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run(debug=True)

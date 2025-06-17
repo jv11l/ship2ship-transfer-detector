@@ -19,6 +19,11 @@ dependencies = [
     "geopandas (>=1.1.0,<2.0.0)",
     "shapely (>=2.1.1,<3.0.0)",
     "numpy (==2.2.6)",
+    "geopy (>=2.4.1,<3.0.0)",
+    "dash (>=3.0.4,<4.0.0)",
+    "plotly (>=6.1.2,<7.0.0)",
+    "dash-bootstrap-components (>=2.0.3,<3.0.0)",
+    "dash-bootstrap-templates (>=2.1.0,<3.0.0)",
 ]
 
 [tool.poetry]

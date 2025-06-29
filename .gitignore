@@ -164,3 +164,8 @@ data/
 logs/
 assets/
 runs/
+notebooks/
+docs/
+results/
+images/
+old/

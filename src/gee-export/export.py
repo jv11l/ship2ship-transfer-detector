@@ -4,7 +4,6 @@ import http.client
 import json
 import requests
 import time
-from typing import List, Optional
 import sys
 import urllib3
 
@@ -20,9 +19,9 @@ def export_image_to_gcs(
         # image_id: str,
         bucket_name: str,
         folder_name: str,
-        filename: Optional[str] = None,
+        filename: str | None = None,
         resolution: int = 10,
-        region_of_interest: Optional[List[float]] = None,
+        region_of_interest: list[float] | None = None,
         export_format: str = 'GeoTIFF'
         ) -> ee.batch.Task:
     """

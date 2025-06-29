@@ -99,7 +99,7 @@ if __name__ == '__main__':
             
             # Update task state counts
             counts_completed, counts_failed, counts_running, counts_ready = update_task_states_counts(task_statuses)
-            print(f"Ready: {counts_ready}, Running: {counts_running}, \ 
+            print(f"Ready: {counts_ready}, Running: {counts_running}, \
                   Completed: {counts_completed}/{image_list_size}, Failed: {counts_failed}")
             time.sleep(5)
             print("===============================================")

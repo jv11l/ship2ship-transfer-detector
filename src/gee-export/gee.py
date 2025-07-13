@@ -2,7 +2,7 @@
 import csv
 import ee
 import pandas as pd
-from typing import Generator
+from collections.abc import Generator
 import requests
 import urllib3
 import http.client
@@ -11,34 +11,16 @@ import time
 
 SENTINEL1_GRD = 'COPERNICUS/S1_GRD'
 
-
 def format_date(date: str) -> ee.Date:
-    """Format the date string into an ee.Date object.
-
-    Args:
-        date: A string representing the date.
-
-    Returns:
-        An ee.Date object representing the formatted date.
-    """
+    """Format the date string into an ee.Date object."""
     return ee.Date(date)
-
 
 def generate_date_range(
         start: str,
         end: str,
         timedelta: int = 1
         ) -> Generator[ee.DateRange, None, None]:
-    """Generate a date range between the start and end dates.
-
-    Args:
-        start: A string representing the start date.
-        end: A string representing the end date.
-        timedelta: An integer representing the time difference between each date in the range.
-
-    Yields:
-        An ee.DateRange object representing each date range in the generated range.
-    """
+    """Generate a date range between the start and end dates."""
     start = format_date(start)
     end = format_date(end)
     n_date_range = end.difference(start, 'days').getInfo()
@@ -48,24 +30,13 @@ def generate_date_range(
         start = start.advance(timedelta, 'day')
         yield date_range
 
-
 def get_image_collection(
         aoi: list,
         date_range: tuple,
         band: list = ['VH', 'VV'],
         collection: str = SENTINEL1_GRD
         ) -> ee.ImageCollection:
-    """Get a collection of SAR images.
-
-    Args:
-        aoi: A list representing the area of interest.
-        date_range: A tuple representing the start and end dates.
-        band: A list of strings representing the bands to select.
-        collection: A string representing the image collection.
-
-    Returns:
-        An ee.ImageCollection object representing the collection of SAR images.
-    """
+    """Get a collection of SAR images."""
     if type(aoi) == list:
         aoi = ee.Geometry.Rectangle(aoi)
 
@@ -84,55 +55,23 @@ def get_image_collection(
     )
     return image_collection
 
-
 def get_image_list(image_collection: ee.ImageCollection) -> ee.List:
-    """Get a list of images from the image collection.
-
-    Args:
-        image_collection: An ee.ImageCollection object representing the collection of images.
-
-    Returns:
-        An ee.List object representing the list of images.
-    """
+    """Get a list of images from the image collection."""
     return image_collection.toList(image_collection.size())
 
-
 def len_image_list(image_list: ee.List) -> int:
-    """Get the length of the image list.
-
-    Args:
-        image_list: An ee.List object representing the list of images.
-
-    Returns:
-        An integer representing the length of the image list.
-    """
+    """Get the length of the image list."""
     return image_list.size().getInfo()
 
-
 def get_image_from_list(image_list: ee.List, image_index: int = 0) -> ee.Image:
-    """Get an image from the image list.
-
-    Args:
-        image_list: An ee.List object representing the list of images.
-        image_index: An integer representing the index of the image to retrieve.
-
-    Returns:
-        An ee.Image object representing the retrieved image.
-    """
+    """Get an image from the image list."""
     return ee.Image(image_list.get(image_index))
 
-
 def get_list_of_images(image_list: ee.List) -> list:
-    """Get a list of images from the image list.
-
-    Args:
-        image_list: An ee.List object representing the list of images.
-
-    Returns:
-        A list of ee.Image objects representing the list of images.
-    """
-    return [ee.Image(image_list.get(i)) for i in range(len_image_list(image_list))]
-
+    """Get a list of images from the image list."""
+    return [
+        ee.Image(image_list.get(i)) for i in range(len_image_list(image_list))
+    ]
 
 def get_image_id_with_retry(image: ee.Image, max_retries: int =5):
     for i in range(max_retries):
@@ -149,57 +88,25 @@ def get_image_id_with_retry(image: ee.Image, max_retries: int =5):
     print("Failed to get the image id after several retries")
     return None
 
-
 def get_image_id(image: ee.Image) -> str:
-    """Get the ID of the image.
-
-    Args:
-        image: An ee.Image object representing the image.
-
-    Returns:
-        A string representing the ID of the image.
-    """
+    """Get the ID of the image."""
     return get_image_id_with_retry(image)
 
-
 def get_crs(image: ee.Image) -> str:
-    """Get the CRS of the image.
-
-    Args:
-        image: An ee.Image object representing the image.
-
-    Returns:
-        A string representing the CRS of the image.
-    """
+    """Get the CRS of the image."""
     projection = image.select(0).projection().getInfo()
     return projection['crs']
 
-
 def get_crs_transform(image: ee.Image) -> list:
-    """Get the CRS transform of the image.
-
-    Args:
-        image: An ee.Image object representing the image.
-
-    Returns:
-        A list representing the CRS transform of the image.
-    """
+    """Get the CRS transform of the image."""
     projection = image.select(0).projection().getInfo()
     return projection['transform']
-
 
 def save_image_timestamps_to_csv(
     image_list: ee.List, 
     filename: str = 'timestamps_sar_images.csv'
     ) -> None:
-    """
-    Save the timestamps and image IDs of a list of images to a CSV file.
-
-    Args:
-        image_list (ee.List): A list of images.
-        filename (str, optional): The name of the CSV file to save the timestamps and image IDs to. 
-            Defaults to 'timestamps_sar_images.csv'.
-    """
+    """Save the timestamps and image IDs of a list of images to a CSV file."""
     with open(filename, 'a') as f:
         col_headers = ['TIMESTAMP', 'IMAGE_ID']
         writer = csv.writer(f)
@@ -214,20 +121,10 @@ def save_image_timestamps_to_csv(
             writer.writerow(new_row)
             new_row = []
             
-
 def load_image_timestamps_from_csv(
     filename: str = 'timestamps_sar_images.csv'
     ) -> pd.DataFrame:
-    """
-    Load image timestamps from a CSV file.
-
-    Args:
-        filename (str): The path to the CSV file containing the timestamps. Default is 'timestamps_sar_images.csv'.
-
-    Returns:
-        pd.DataFrame: A DataFrame containing the loaded timestamps.
-
-    """
+    """Load image timestamps from a CSV file."""
     df = pd.read_csv(filename)
     df['TIMESTAMP'] = pd.to_datetime(df['TIMESTAMP'])
     return df

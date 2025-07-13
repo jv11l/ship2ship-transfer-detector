@@ -5,8 +5,8 @@ import os
 import subprocess
 import pandas as pd
 import rasterio as rio
-import utils.geo_utils as geos
-import utils.image_processing as ipc
+import utils.geolocate.geo_utils as geos
+import preprocess.image_processing as ipc
 import utils.utils as utils
 
 import sys

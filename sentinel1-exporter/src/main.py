@@ -25,26 +25,6 @@ from export import (
 )
 
 
-# Get project ID
-project_id = os.environ.get('VESSEL_PROJECT_ID')  # REPLACE ENVIRONMENT VARIABLE
-
-# Credentials to access bucket
-PATH = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
-
-# Define the region of interest
-aoi = [22.357, 36.373, 23.114, 36.846]  # Laconian bay
-
-# Define the date range
-start_date = '2022-01-01'
-end_date = '2023-03-01'
-
-# Define the band
-band = 'VH'
-
-# Definde destination folder
-folder_name = 'VH'
-
-
 if __name__ == '__main__':
     # Authenticate and initialise Earth Engine project
     ee.Authenticate()
@@ -53,11 +33,6 @@ if __name__ == '__main__':
         opt_url='https://earthengine-highvolume.googleapis.com'  # for large volumes
     )
 
-    # Instantiate Storage Client
-    storage_client = storage.Client(PATH)
-    bucket_id = os.environ.get('SAR_BUCKET')  # REPLACE ENVIRONMENT VARIABLE
-    bucket = storage_client.get_bucket(bucket_id)
-
     # Get the image collection for the selected aoi, date range and band
     image_collection = get_image_collection(aoi, (start_date, end_date), band)
     image_list = get_image_list(image_collection)
@@ -65,7 +40,6 @@ if __name__ == '__main__':
 
     # Start the export task
     # TODO: check for already running tasks
-    TASK_QUOTA = 2
     task_statuses = {}
     tasks = []
     task_counts = len(tasks)

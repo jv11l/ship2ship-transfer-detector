@@ -308,7 +308,7 @@ def update_map(frame_date, data):
     if data:
         # print(f'Updating map on clicks with {data}')
         # # Convert data to DataFrame for easier manipulation
-        fig = px.scatter_mapbox(
+        fig = px.scatter_map(
             df_results,
             lat="latitude",
             lon="longitude",
